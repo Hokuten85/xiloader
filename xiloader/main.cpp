@@ -26,6 +26,7 @@ This file is part of DarkStar-server source code.
 #include "console.h"
 #include "functions.h"
 #include "network.h"
+#include "XiLoaderInterface.h"
 
 /* Global Variables */
 xiloader::Language g_Language = xiloader::Language::English; // The language of the loader to be used for polcore.
@@ -36,6 +37,7 @@ std::string g_Password = ""; // The password being logged in with.
 char* g_CharacterList = NULL; // Pointer to the character list data being sent from the server.
 bool g_IsRunning = false; // Flag to determine if the network threads should hault.
 bool g_Hide = false; // Determines whether or not to hide the console window after FFXI starts.
+bool g_XiPivot = false; // Determines whether or not to run XiPivot Initialization.
 
 /* Hairpin Fix Variables */
 DWORD g_NewServerAddress; // Hairpin server address to be overriden with.
@@ -294,6 +296,12 @@ int __cdecl main(int argc, char* argv[])
             continue;
         }
 
+		if (!_strnicmp(argv[x], "--xipivot", 9))
+		{
+			g_XiPivot = true;
+			continue;
+		}
+
         xiloader::console::output(xiloader::color::warning, "Found unknown command argument: %s", argv[x]);
     }
 
@@ -367,6 +375,9 @@ int __cdecl main(int argc, char* argv[])
                 }
                 else
                 {
+					XiLoaderInterface* xiLoaderInterface = new XiLoaderInterface();
+					xiLoaderInterface->Initialize();
+
                     /* Attempt to start Final Fantasy.. */
                     IUnknown* message = NULL;
                     xiloader::console::hide();

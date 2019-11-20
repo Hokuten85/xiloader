@@ -53,6 +53,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(SolutionDir)XIPivot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -84,6 +85,7 @@
     <ClCompile Include="functions.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="network.cpp" />
+    <ClCompile Include="XiLoaderInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="console.h" />
@@ -93,6 +95,12 @@
     <ClInclude Include="functions.h" />
     <ClInclude Include="network.h" />
     <ClInclude Include="polcore.h" />
+    <ClInclude Include="XiLoaderInterface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XiPivot\XIPivot.Core.vcxproj">
+      <Project>{55298b14-2a3f-4a50-aacc-d32a1945e100}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
