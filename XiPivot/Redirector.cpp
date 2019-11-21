@@ -157,6 +157,8 @@ namespace XiPivot
 			m_rootPath = newRoot;
 			m_resolvedPaths.clear();
 
+			scanOverlayPath(m_rootPath);
+
 			m_logger->logMessageF(ILogProvider::LogLevel::Info, "m_rootPath = '%s'", m_rootPath.c_str());
 			for (const auto& overlay : m_overlayPaths)
 			{

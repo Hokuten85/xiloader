@@ -375,8 +375,11 @@ int __cdecl main(int argc, char* argv[])
                 }
                 else
                 {
-					XiLoaderInterface* xiLoaderInterface = new XiLoaderInterface();
-					xiLoaderInterface->Initialize();
+					if (g_XiPivot)
+					{
+						XiLoaderInterface* xiLoaderInterface = new XiLoaderInterface();
+						xiLoaderInterface->Initialize();
+					}
 
                     /* Attempt to start Final Fantasy.. */
                     IUnknown* message = NULL;

@@ -15,6 +15,7 @@ private:
 		Settings();
 
 		std::string rootPath;
+		std::vector<std::string> overlays;
 	};
 
 	Settings               m_settings;
