@@ -635,6 +635,22 @@ namespace xiloader
 
             case 0x0003:
                 xiloader::console::output(xiloader::color::warning, "Receiving character list..");
+                // globals::g_CharacterList is assigned on the main thread only after polcore
+                // has been instantiated (FindCharacters, see main.cpp). This data thread is
+                // started earlier, so on a fast/loopback data server the 0x0003 character-list
+                // packet can arrive before that assignment, leaving g_CharacterList == NULL.
+                // Writing into it then faults at address 0. Wait (bounded) for the main thread
+                // to populate the pointer instead of dereferencing null.
+                for (int waited = 0; globals::g_CharacterList == NULL && waited < 200; ++waited)
+                {
+                    Sleep(25);
+                }
+                if (globals::g_CharacterList == NULL)
+                {
+                    xiloader::console::output(xiloader::color::error, "Character list buffer not ready; skipping character list update.");
+                    sendSize = 0;
+                    break;
+                }
                 for (auto x = 0; x < recvBuffer[1]; x++)
                 {
                     globals::g_CharacterList[0x00 + (x * 0x68)] = 1;
